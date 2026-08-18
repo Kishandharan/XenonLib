@@ -28,6 +28,7 @@ cfmt:
     jmp cfmt_loop 
 
   cfmt_ret: 
+    mov [rdi], al 
     ret 
 
 exit: 
