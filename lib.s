@@ -37,6 +37,8 @@ exit:
   ret
 
 strlen:
+  xor rax, rax
+
   strlen_loop:
     cmp byte ptr [rdi], 0
     je strlen_done 
