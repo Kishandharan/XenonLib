@@ -27,11 +27,11 @@ Calculates the length of a null-terminated string. Takes the starting address of
     .section .data
       str1: .asciz "Testing"
    
-**Note: The string must be null-terminated for strlen to work.**
+**Note: The string must be null-terminated for `strlen` to work.**
 
 ### print
 
-Prints a null-terminated string to stdout. This function takes the starting address of the string in memory in the `RDI` register and prints the string. **This function internally calls the `strlen` function to calculate the length of the null-terminated string to pass into the `syswrite` system call. Because of this, the string must be null-terminated here too. If you want the value of `RDI` preserved after calling this function, you must preserve it before calling this function due to the same reason.** Example using `print`:
+Prints a null-terminated string to `stdout`. This function takes the starting address of the string in memory in the `RDI` register and prints the string. **This function internally calls the `strlen` function to calculate the length of the null-terminated string to pass into the system call. Because of this, the string must be null-terminated here too. If you want the value of `RDI` preserved after calling this function, you must preserve it before calling this function due to the same reason.** Example using `print`:
 
     .intel_syntax noprefix
     .global _start
@@ -47,10 +47,10 @@ Prints a null-terminated string to stdout. This function takes the starting addr
         
     .section .data
       str1: .asciz "Testing"
-This function also returns the length of the string in `RAX` due to the `syswrite` system call.
+This function also returns the length of the string in `RAX` due to the system call.
 
 ### exit
-This exits the program with exit status 0. It doesn't take any arguments. It uses the `sysexit` syscall to do this. Example using `exit`:
+This exits the program with exit status 0. It doesn't take any arguments. Example using `exit`:
 
     .intel_syntax noprefix
     .global _start
