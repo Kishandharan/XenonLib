@@ -83,3 +83,4 @@ This function replaces all the `%` symbols in a string with a character and writ
     .section .data
       buf: .skip 1000
       inp: .asciz "Testing%%%"
+This function also adds a null-terminator at the end of the output string so that it can be easily passed into the other functions without any problems.
