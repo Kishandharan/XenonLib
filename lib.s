@@ -7,6 +7,15 @@
 .section .text
 
 cfmt:
+  push rdi
+  mov rdi, rsi
+  call strlen
+  pop rdi
+  
+  add rax, 1 
+  cmp rcx, rax
+  jl cfmt_failure
+
   cfmt_loop:
     mov al, [rsi]
     cmp al, '%'
@@ -28,7 +37,12 @@ cfmt:
     jmp cfmt_loop 
 
   cfmt_ret: 
-    mov [rdi], al 
+    mov [rdi], al
+    mov rax, 0
+    ret 
+
+  cfmt_failure:
+    mov rax, 1
     ret 
 
 exit: 

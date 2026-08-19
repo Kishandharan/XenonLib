@@ -64,7 +64,7 @@ This exits the program with exit status 0. It doesn't take any arguments. Exampl
     .section .data
       str1: .asciz "Testing"
 ###  cfmt
-This function replaces all the `%` symbols in a string with a character and writes the new string to another address. It takes the starting address of the buffer to write the new formatted string to in the `RDI` register, the starting address of the input string in the `RSI` register, and the character to replace the `%` symbols with in the `DL` register. **This function overwrites the `RDI` register, the `RSI` register, and the `AL` register. So if you want the value of these registers to be preserved even after the execution of this function, you must save them yourselves before you call this function.** Example using `cfmt`:
+This function replaces all the `%` symbols in a string with a character and writes the new string to another address, and returns without doing anything if the size is it allowed to use is less than the size required to write the newly formatted string. It takes the starting address of the buffer to write the new formatted string to in the `RDI` register, the starting address of the input string in the `RSI` register, the character to replace the `%` symbols with in the `DL` register, and the max amount of memory it can use in bytes in the `RCX` register. It returns whether the max size was enough or not in the `RAX` register. If it returns 1, it means the max limit isn't enough and it didn't do any formatting. If it returns 0, it means the size was enough and it successfully formatted the text.**This function overwrites the `RDI` register, the `RSI` register and the `RAX` register (for the return value). So if you want the value of these registers to be preserved even after the execution of this function, you must save them yourselves before you call this function.** Example using `cfmt`:
 
     .intel_syntax noprefix
     .global _start
@@ -74,6 +74,7 @@ This function replaces all the `%` symbols in a string with a character and writ
         lea rdi, [buf]
         lea rsi, [inp]
         mov dl, 'A'
+        mov rcx, 1000
         call cfmt
         
         lea rdi, [buf]
