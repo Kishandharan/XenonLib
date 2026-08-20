@@ -50,7 +50,7 @@ Prints a null-terminated string to `stdout`. This function takes the starting ad
 This function also returns the length of the string in `RAX` due to the system call.
 
 ### exit
-This exits the program with exit status 0. It doesn't take any arguments. Example using `exit`:
+This exits the program. It takes the exit status in `RDI`. Example using `exit`:
 
     .intel_syntax noprefix
     .global _start
@@ -59,6 +59,8 @@ This exits the program with exit status 0. It doesn't take any arguments. Exampl
       _start:
         lea rdi, [str1]
         call print
+        
+        mov rdi, 0
         call exit
         
     .section .data
