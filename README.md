@@ -4,7 +4,7 @@ Libc-Independent, minimal Assembly Library with a lot of helper functions. Uses 
 ## Functions
 
 ### strlen
-Calculates the length of a null-terminated string. Takes the starting address of the string in memory in the `RDI` register, and returns the length of the string in `RAX`. To calculate the length of the string, this function changes `RDI`. So if you want the value of RDI to be preserved, you must save it yourselves before calling `strlen`. Example code using `strlen`:
+Calculates the length of a null-terminated string. Takes the starting address of the string in memory in the `RDI` register, and returns the length of the string in the `RAX` register. **To calculate the length of the string, this function overwrites the `RDI` register. So if you want the value of the `RDI` register to be preserved, you must save it yourselves before calling `strlen`**. Example code using `strlen`:
 
     .intel_syntax noprefix
     .global _start
@@ -28,6 +28,36 @@ Calculates the length of a null-terminated string. Takes the starting address of
       str1: .asciz "Testing"
    
 **Note: The string must be null-terminated for `strlen` to work.**
+
+### tstrlen 
+This function counts how many characters are there in a string until the first occurrence of a specific character is encountered. It takes the starting address of the string in `RDI` register and takes the character to count until in the `SIL` register, and returns the result in the `RAX` register. If the specified character does not exist in the string, it will simply return the length of the entire string. **This function overwrites the `RDI` register for calculations. So if you want its value preserved even after calling the function, you must save it yourselves before calling the function.** Example using `tstrlen`:
+
+``` 
+.intel_syntax noprefix 
+.global _start 
+
+.section .text 
+  _start: 
+    lea rdi, [str1]
+    mov sil, 'o'
+    call tstrlen
+    
+    push rax
+    mov rax, 1 
+    mov rdi, 1 
+    lea rsi, [str1]
+    pop rdx
+    syscall 
+    
+    mov rax, 60 
+    mov rdi, 0 
+    syscall 
+
+.section .data 
+  str1: .ascii "Hello World"
+``` 
+
+**Note: You must pass in a null-terminated string to this function if you are not sure whether the character you have passed in as an argument is actually present in the string. You may use a string with no null-termination if you are absolutely sure that character is present somewhere in the string.**
 
 ### print
 

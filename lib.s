@@ -3,6 +3,7 @@
 .global exit 
 .global strlen 
 .global print 
+.global tstrlen
 
 .section .text
 
@@ -63,6 +64,23 @@ strlen:
 
   strlen_done: 
     ret
+
+tstrlen:
+   xor rax, rax
+
+   tstrlen_loop: 
+     cmp byte ptr [rdi], sil
+     je tstrlen_done
+
+     cmp byte ptr [rdi], 0
+     je tstrlen_done
+
+     inc rax 
+     inc rdi 
+     jmp tstrlen_loop
+
+   tstrlen_done:
+     ret
 
 print: 
   push rdi 
