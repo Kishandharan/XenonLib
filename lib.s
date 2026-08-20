@@ -46,8 +46,8 @@ cfmt:
     ret 
 
 exit: 
+  # Argument passes through to the syscall
   mov rax, 60
-  xor rdi, rdi
   syscall
   ret
 
